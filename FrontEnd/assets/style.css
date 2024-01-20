@@ -52,6 +52,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+  background-color: #FFFEF8;
 }
 header {
 	display: flex;
@@ -87,7 +88,6 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-
 }
 nav li {
 	padding: 0 10px;
@@ -157,11 +157,10 @@ li:hover {
 }
 #contact {
 	width: 50%;
-margin: auto;
+  margin: auto;
 }
 #contact > * {
 	text-align: center;
-
 }
 #contact h2{
 	margin-bottom: 20px;
@@ -186,6 +185,10 @@ margin: auto;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+#contact a {
+  text-align: center;
+  color: #3D3D3D;
+}
 
 input[type="submit"]{
 	font-family: 'Syne';
@@ -198,8 +201,11 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+footer {
+  background-color: #FFFFFF;
+}
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
 }
