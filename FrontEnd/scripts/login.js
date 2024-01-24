@@ -1,56 +1,42 @@
+// Select main
+const main = document.querySelector("main");
 
-// Initialize form
-// export async function generateLogin() {
-//   const sectionContact = document.createElement("section");
-//   sectionContact.id = "contact";
+// Create contact section
+function generateContact() {
+  // Create intro elements
+  const contactSection = document.createElement("section");
+  contactSection.id = "contact";
+  const login = document.createElement("h2");
+  login.innerText = "Log In";
 
-//   const titleLogin = document.createElement("h2");
-//   titleLogin.textContent = "Log In";
-//   // Remove the elements inside the gallery
-//   form.innerHTML = "";
+  // Create form element
+  const form = document.createElement("form");
+  form.action = "http://localhost:5678/api/users/login";
+  form.method = "post";
+  form.id = "form";
+  form.innerHTML = `
+    <label for="email">E-mail</label>
+    <input type="email" name="email" id="email" required>
+    <p id="wrongEmail"></p>
+    <label for="message">Mot de passe</label>
+    <input type="password" name="password" id="password" required>
+    <p id="wrongPassword"></p>
+    <input type="submit" value="Se connecter" id="submit">`;
 
-//   // Create form element
-//   const form = document.createElement("form");
-//   form.id = "form";
-//   form.action = "http://localhost:5678/api/users/login";
-//   form.method = "post";
+  const passwordForgot = document.createElement("a");
+  passwordForgot.href = "";
+  passwordForgot.innerText = "Mot de passe oublié";
 
-//   // Create input for email
-//   const emailLabel = document.createElement("label");
-//   emailLabel.textContent = "Email";
-//   const emailInput = document.createElement("input");
-//   emailInput.type = "email";
-//   emailInput.name = "email";
-//   emailInput.id = "email";
-//   emailInput.required = true;
-
-//   // Create input for password
-//   const passwordLabel = document.createElement("label");
-//   passwordLabel.textContent = "Mot de passe";
-//   const passwordInput = document.createElement("input");
-//   passwordInput.type = "password";
-//   passwordInput.name = "password";
-//   passwordInput.id = "password";
-//   passwordInput.required = true;
-
-//   // Create submit button
-//   const submitButton = document.createElement("input");
-//   submitButton.type = "submit";
-//   submitButton.value = "Se connecter";
-//   submitButton.id = "submit";
-
-//   // Append elements to the form
-//   form.appendChild(emailLabel);
-//   form.appendChild(emailInput);
-//   form.appendChild(passwordLabel);
-//   form.appendChild(passwordInput);
-//   form.appendChild(submitButton);
-// }
+  // Append elements to the main
+  contactSection.appendChild(login);
+  contactSection.appendChild(form);
+  main.appendChild(contactSection);
+}
+generateContact();
 
 
 const url = "http://localhost:5678/api/users/login";
 const form = document.getElementById("form");
-
 
 function loginAuthentication() {
   form.addEventListener("submit", (event) => {
@@ -84,8 +70,8 @@ function loginAuthentication() {
         const emailMessage = document.getElementById("wrongEmail");
         const passwordMessage = document.getElementById("wrongPassword");
 
-        emailMessage.innerText = "E-mail incorect";
-        passwordMessage.innerText = "Mot de passe incorect";
+        emailMessage.innerText = "E-mail incorrect";
+        passwordMessage.innerText = "Mot de passe incorrect";
 
         emailMessage.style.color = "red";
         passwordMessage.style.color = "red";
