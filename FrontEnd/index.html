@@ -9,16 +9,24 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+  <script src="https://kit.fontawesome.com/37200efcc3.js" crossorigin="anonymous"></script>
   <script type="module" src="./scripts/main.js" defer></script>
 </head>
 <body>
+<!-- <div class="mode edition hidden">
+  <i class="fa-regular fa-pen-to-square"></i>
+  <p>Mode édition</p>
+</div> -->
 <header>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+	<!-- <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1> -->
+  <a href="/FrontEnd/"><h1>Sophie Bluel <span>Architecte d'intérieur</span></h1></a>
 	<nav>
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li><a href="./login.html"></a>login</li>
+			<li><a href="./login.html">login</a></li>
+			<!-- <li class="logout">logout</a></li> -->
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -36,7 +44,13 @@
 		</article>
 	</section> -->
 	<!-- <section id="portfolio">
-    <h2>Mes Projets</h2>
+    <div class="mode">
+      <h2>Mes projets</h2>
+      <div class="modify">
+        <i class="fa-regular fa-pen-to-square"></i>
+        <p>modifier</p>
+      </div>
+    </div>
     <div class="filterbar">
       <span>Tous</span>
       <span>Objets</span>

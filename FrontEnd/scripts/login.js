@@ -47,7 +47,6 @@ function loginAuthentication() {
     const password = document.getElementById("password").value;
 
     let formData = JSON.stringify({ email: email, password: password })
-
     console.log(formData);
 
     const requestInfos = {
@@ -63,10 +62,12 @@ function loginAuthentication() {
       console.log(data);
 
       if (data.hasOwnProperty("userId") && data.hasOwnProperty("token")) {
+        // Retrieval of stored elements from localStorage
+        window.localStorage.setItem("portfolio", JSON.stringify(data));
+        // Redirection
         window.location = "/FrontEnd";
-      } else {
-        console.log('no')
 
+      } else {
         const emailMessage = document.getElementById("wrongEmail");
         const passwordMessage = document.getElementById("wrongPassword");
 
