@@ -57,10 +57,14 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 100px 0 50px;
 }
 section {
-	margin: 50px 0
+	margin: 50px 0;
+}
+
+a {
+  text-decoration: none;
 }
 
 h1{
@@ -69,7 +73,7 @@ h1{
 	font-family: 'Syne';
 	font-size: 22px;
 	font-weight: 800;
-	color: #B1663C
+	color: #B1663C;
 }
 
 h1 > span {
@@ -84,6 +88,19 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+.edition {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 6%;
+  width: 100%;
+  color: white;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 nav ul {
 	display: flex;
 	align-items: center;
@@ -123,6 +140,21 @@ li:hover {
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
+}
+#portfolio .mode {
+  margin-right: 30px;
+}
+.mode {
+  display: flex;
+  justify-content: center;
+}
+.mode h2 {
+  width: 22%;
+}
+.modify {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .filterbar {

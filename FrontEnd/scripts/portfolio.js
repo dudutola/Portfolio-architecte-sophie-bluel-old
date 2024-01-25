@@ -5,14 +5,15 @@ const works = await apiWorks.json();
 // Select main
 const main = document.querySelector("main");
 
-// // Create portfolio section
+//Create portfolio section
 const portfolioSection = document.createElement("section");
 portfolioSection.id = "portfolio";
 
 export function generatePortfolio() {
-  // Create intro elements
+  // Create portfolio elements
   const mesProjets = document.createElement("h2");
   mesProjets.innerText = "Mes projets";
+  mesProjets.id = "projets";
 
   const filterBar = document.createElement("div");
   filterBar.className = "filterbar";
