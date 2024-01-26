@@ -52,7 +52,37 @@ export function generateModal(items) {
     figure.appendChild(deleteButton);
     modalImages.appendChild(figure);
     modalContent.appendChild(modalImages);
+
+    // const deleteButton = document.querySelector(".fa-trash-can");
+    deleteButton.addEventListener("click", (e) => {
+      console.log(e);
+      e.preventDefault();
+
+      // Image id
+      let id = items[i].id;
+      console.log(id);
+
+      const url = `http://localhost:5678/api/works/${id}`;
+
+      // Remove image
+      const requestInfos = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        headers: {
+          "accept": "*/*",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcwNjI4MzkyNCwiZXhwIjoxNzA2MzcwMzI0fQ.6REKK2z7c9KRogYQjHhBH1723A4cbxwGRE6N15Jd9_Q"
+        }
+      };
+
+      fetch(url, requestInfos)
+      .then(response => response.json())
+      .then((data) => {
+
+        console.log(data);
+      });
+    })
   }
+
 
   // Calling functions
   const backdropClose = document.getElementById("backdrop");
