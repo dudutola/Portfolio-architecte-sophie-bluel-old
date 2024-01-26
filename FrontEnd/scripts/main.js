@@ -7,6 +7,8 @@ import { generateModal } from "./modal.js";
 const apiWorks = await fetch("http://localhost:5678/api/works");
 const works = await apiWorks.json();
 
+console.log(works)
+
 export function generateMainPages() {
   generateIntroduction();
   generatePortfolio();
