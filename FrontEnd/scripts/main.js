@@ -1,6 +1,7 @@
 import { generateIntroduction } from "./intro.js";
 import { generatePortfolio, generateGallery } from "./portfolio.js";
 import { generateContact } from "./contact.js";
+import { generateModal } from "./modal.js";
 
 // Retrieve data from the backend
 const apiWorks = await fetch("http://localhost:5678/api/works");
@@ -65,6 +66,8 @@ function verifyIfUserLogin() {
     // Not display filterBar
     const filterBar = document.querySelector(".filterbar");
     filterBar.style.display = "none";
+
+    generateModal(works);
   }
 }
 // execute function
