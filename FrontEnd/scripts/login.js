@@ -65,7 +65,7 @@ function loginAuthentication() {
         // Retrieval of stored elements from localStorage
         window.localStorage.setItem("portfolio", JSON.stringify(data));
         // Redirection
-        window.location = "/FrontEnd";
+        window.location = "./index.html";
 
       } else {
         const emailMessage = document.getElementById("wrongEmail");
