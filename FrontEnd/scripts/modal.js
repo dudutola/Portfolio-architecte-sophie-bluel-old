@@ -114,22 +114,6 @@ export function generateModal(items) {
   generateSecondModal();
 }
 
-function checkFormValidity() {
-  const form = document.getElementById("form");
-  const validateButton = document.getElementById("submit");
-  validateButton.setAttribute("disabled", "true");
-
-  form.addEventListener("input", (e) =>  {
-    if (form.checkValidity()) {
-      validateButton.classList.add("valid");
-      validateButton.removeAttribute("disabled");
-    } else {
-      validateButton.classList.remove("valid");
-      // validateButton.setAttribute("disabled", "true");
-    }
-  })
-}
-
 async function sendImage(e) {
   e.preventDefault();
 
@@ -159,8 +143,11 @@ async function sendImage(e) {
     console.log(data)
 
     if (data.hasOwnProperty("title") && data.hasOwnProperty("imageUrl") && data.hasOwnProperty("categoryId")) {
-      console.log("hellooooooo");
-      checkFormValidity()
+      const validateButton = document.getElementById("submit");
+      // Check if image, title, and category are provided
+      if (image && title && category) {
+      validateButton.style.backgroundColor = "#1D6154";
+      };
 
       location.reload();
     } else {

@@ -214,12 +214,12 @@ li:hover {
   border-radius: 3px;
   margin: 5px 5px 5px -25px;
 }
-.submit-btn {
-  background-color: #3D3D3D;
+#form #submit {
+  background-color: #A7A7A7;
 }
-.submit-btn.valid {
-  background-color: green;
-}
+/* #form #submit.valid {
+  background-color: #1D6154;
+} */
 
 .filterbar {
   display: flex;
