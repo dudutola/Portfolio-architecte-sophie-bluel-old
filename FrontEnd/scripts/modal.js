@@ -4,6 +4,7 @@ let token;
 if (window.localStorage.getItem("portfolio")) {
   token = JSON.parse(window.localStorage.getItem("portfolio")).token;
 }
+
 // Function to display the modal
 function displayModal() {
   modal.classList.remove("hidden");
@@ -136,7 +137,8 @@ async function sendImage(e) {
   // recup valeurs
   const image = document.getElementById("image").files[0];
   const title = document.getElementById("title").value;
-  const category = document.getElementById("category").value;
+  const category = document.getElementById("category-select").value;
+  console.log(category)
 
   const formData = new FormData();
   formData.append("image", image);
@@ -196,7 +198,8 @@ function generateSecondModal() {
       <label for="title">Titre</label>
       <input type="text" name="title" id="title" required>
       <label for="category">Catégorie</label>
-      <input type="number" name="category" id="category" required>
+      <select name="category" id="category-select" required>
+      <select/>
       <p id="wrongPassword"></p>
       <input type="submit" value="Valider" id="submit" class="submit-btn">`;
 
@@ -205,6 +208,33 @@ function generateSecondModal() {
     modalContent.appendChild(form);
 
     const formValidation = document.getElementById("form");
-    formValidation.addEventListener("submit", sendImage)
+    formValidation.addEventListener("submit", sendImage);
+
+    // Call the function to populate options
+    selectOptions()
   });
+}
+
+async function selectOptions() {
+  try {
+    const apiCategory = await fetch("http://localhost:5678/api/categories");
+    const categories = await apiCategory.json();
+
+    const categorySelect = document.getElementById("category-select");
+
+    // Clear existing options
+    categorySelect.innerHTML = "";
+
+    // Loop through categories and create options
+    categories.forEach(category => {
+      const categoryOption = document.createElement("option");
+      categoryOption.id = "option";
+      categoryOption.value = category.id;
+      categoryOption.innerText = category.name;
+
+      categorySelect.appendChild(categoryOption);
+    });
+  } catch (error) {
+    console.error("Error fetching or parsing categories:", error);
+  }
 }
