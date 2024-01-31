@@ -1,5 +1,4 @@
 //
-// const token = JSON.parse(window.localStorage.getItem("portfolio")).token;
 let token;
 if (window.localStorage.getItem("portfolio")) {
   token = JSON.parse(window.localStorage.getItem("portfolio")).token;
@@ -8,14 +7,12 @@ if (window.localStorage.getItem("portfolio")) {
 // Function to display the modal
 function displayModal() {
   modal.classList.remove("hidden");
-  console.log(modal);
   backdrop.classList.remove("hidden");
 }
 // Function to close the modal
 function closeModal() {
   modal.classList.add("hidden");
   backdrop.classList.add("hidden");
-  console.log(backdrop);
 }
 
 // Function to generate the modal
@@ -27,22 +24,29 @@ export function generateModal(items) {
   const modal = document.createElement("section");
   modal.id = "modal";
   modal.className = "hidden";
+
+  const positionIcons = document.createElement("div");
+  positionIcons.id = "position";
   const closeButton = document.createElement("i");
   closeButton.className = "fa-solid fa-xmark";
-  // const back = document.createElement("i");
-  // back.className = "fa-solid fa-arrow-left hidden";
+  const back = document.createElement("i");
+  back.className = "fa-solid fa-arrow-left";
+  back.id = "arrow-left";
+  back.style.display = "none";
 
   const modalContent = document.createElement("div");
   modalContent.id = "modal-content";
-  modalContent.innerHTML = `
-    <h2>Galerie photo</h2>
-    <button class="btn">Ajouter une photo</button>`;
+  const title = document.createElement("h2");
+  title.innerText = "Galerie photo";
 
   const modalImages = document.createElement("div");
   modalImages.className = "modal-images";
 
   // Append
-  modal.appendChild(closeButton);
+  positionIcons.appendChild(closeButton);
+  positionIcons.appendChild(back);
+  modal.appendChild(positionIcons);
+  modalContent.appendChild(title);
   modal.appendChild(modalContent);
 
   const body = document.querySelector("body");
@@ -94,8 +98,14 @@ export function generateModal(items) {
       .catch(error => {
         console.log('Error:', error);
       });
+      location.reload();
     })
   }
+
+  const btn = document.createElement("button");
+  btn.className = "btn";
+  btn.innerText = "Ajouter une photo";
+  modalContent.appendChild(btn);
 
   // Calling functions
   const backdropClose = document.getElementById("backdrop");
@@ -122,7 +132,6 @@ async function sendImage(e) {
   const image = document.getElementById("image").files[0];
   const title = document.getElementById("title").value;
   const category = document.getElementById("category-select").value;
-  console.log(category)
 
   const formData = new FormData();
   formData.append("image", image);
@@ -140,13 +149,13 @@ async function sendImage(e) {
   try {
     const response = await fetch(url, requestInfos);
     const data = await response.json();
-    console.log(data)
+    // console.log(data)
 
     if (data.hasOwnProperty("title") && data.hasOwnProperty("imageUrl") && data.hasOwnProperty("categoryId")) {
       const validateButton = document.getElementById("submit");
       // Check if image, title, and category are provided
       if (image && title && category) {
-      validateButton.style.backgroundColor = "#1D6154";
+        validateButton.style.backgroundColor = "#1D6154";
       };
 
       location.reload();
@@ -169,8 +178,8 @@ function generateSecondModal() {
     const modalContent = document.getElementById("modal-content");
     modalContent.innerHTML = "";
 
-    const back = document.createElement("i");
-    back.className = "fa-solid fa-arrow-left";
+    const back = document.getElementById("arrow-left");
+    back.style.display = "block";
 
     const title = document.createElement("h2");
     title.innerText = "Ajout photo";
@@ -181,24 +190,49 @@ function generateSecondModal() {
     form.method = "post";
     form.id = "form";
     form.innerHTML = `
-      <input type="file" name="image" id="image">
+      <div class="modal-files">
+        <i class="fa-regular fa-image"></i>
+        <label for="image" id="add-file">+ Ajouter photo</label>
+        <input type="file" name="image" id="image" class="hidden">
+        <p>jpg, png : 4mo max</p>
+      </div>
       <label for="title">Titre</label>
       <input type="text" name="title" id="title" required>
-      <label for="category">Catégorie</label>
+      <label for="category" id="category">Catégorie</label>
       <select name="category" id="category-select" required>
       <select/>
       <p id="wrongPassword"></p>
       <input type="submit" value="Valider" id="submit" class="submit-btn">`;
 
-    modal.appendChild(back);
     modalContent.appendChild(title);
     modalContent.appendChild(form);
 
+    // Image preview
+    const image = document.getElementById("image");
+    image.onchange = (e) => {
+      const [file] = image.files;
+      if (file) {
+        const imagePreview = document.createElement("img");
+        imagePreview.style.maxWidth = "34%";
+        imagePreview.src = URL.createObjectURL(file);
+
+        const modalFiles = document.querySelector(".modal-files");
+        const iconFile = document.querySelector(".fa-image");
+        iconFile.style.display = "none";
+        const addFile = document.getElementById("add-file");
+        addFile.style.display = "none";
+        const text = document.querySelector("p");
+        text.style.display = "none";
+        modalFiles.style.padding = "0";
+
+        modalFiles.appendChild(imagePreview);
+        form.insertAdjacentElement("afterbegin", modalFiles);
+      }
+    };
     const formValidation = document.getElementById("form");
     formValidation.addEventListener("submit", sendImage);
 
-    // Call the function to populate options
-    selectOptions()
+    selectOptions();
   });
 }
 
