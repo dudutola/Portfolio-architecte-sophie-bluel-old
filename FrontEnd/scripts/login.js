@@ -3,6 +3,8 @@ const main = document.querySelector("main");
 
 // Create contact section
 function generateContact() {
+  const loginBold = document.querySelector("li:nth-child(3)")
+  loginBold.style.fontWeight = "bold";
   // Create intro elements
   const contactSection = document.createElement("section");
   contactSection.id = "contact";
@@ -21,11 +23,8 @@ function generateContact() {
     <label for="message">Mot de passe</label>
     <input type="password" name="password" id="password" required>
     <p id="wrongPassword"></p>
-    <input type="submit" value="Se connecter" id="submit">`;
-
-  const passwordForgot = document.createElement("a");
-  passwordForgot.href = "";
-  passwordForgot.innerText = "Mot de passe oublié";
+    <input type="submit" value="Se connecter" id="submit-connection">
+    <a href="">Mot de passe oublié</a>`;
 
   // Append elements to the main
   contactSection.appendChild(login);
