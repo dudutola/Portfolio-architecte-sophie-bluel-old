@@ -9,14 +9,11 @@ const works = await apiWorks.json();
 
 console.log(works)
 
-export function generateMainPages() {
-  generateIntroduction();
-  generatePortfolio();
-  generateGallery(works);
-  generateContact();
-}
+generateIntroduction();
+generatePortfolio();
+generateGallery(works);
+generateContact();
 
-generateMainPages();
 
 
 // Declare function users view
@@ -69,7 +66,12 @@ function verifyIfUserLogin() {
     const filterBar = document.querySelector(".filterbar");
     filterBar.style.display = "none";
 
-    generateModal(works);
+
+    const modifyButton = document.querySelector(".modify");
+    modifyButton.addEventListener("click", (e) => {
+      // displayModal(modal);
+      generateModal(works);
+    });
   }
 }
 // execute function
