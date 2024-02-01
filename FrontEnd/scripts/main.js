@@ -7,14 +7,11 @@ import { generateModal } from "./modal.js";
 const apiWorks = await fetch("http://localhost:5678/api/works");
 const works = await apiWorks.json();
 
-console.log(works)
-
+// Call the functions
 generateIntroduction();
 generatePortfolio();
 generateGallery(works);
 generateContact();
-
-
 
 // Declare function users view
 function verifyIfUserLogin() {
@@ -68,7 +65,6 @@ function verifyIfUserLogin() {
     // Not display filterBar
     const filterBar = document.querySelector(".filterbar");
     filterBar.style.display = "none";
-
 
     const modifyButton = document.querySelector(".modify");
     modifyButton.addEventListener("click", (e) => {

@@ -209,7 +209,7 @@ function generateSecondModal(e) {
     const [file] = image.files;
     if (file) {
       const imagePreview = document.createElement("img");
-      imagePreview.style.maxWidth = "34%";
+      imagePreview.style.maxWidth = "32%";
       imagePreview.src = URL.createObjectURL(file);
 
       const modalFiles = document.querySelector(".modal-files");
@@ -318,6 +318,11 @@ function checkFormValidity(checks) {
   // Read the keys inside checks
   if (checks.imageElementIsFilled && checks.titleElementIsFilled && checks.categoryElementIsFilled) {
     buttonElement.style.backgroundColor = "#1D6154";
+
+    const selectMargin = document.getElementById("category-select");
+    selectMargin.style.marginBottom = "47px";
+    const errorMessage = document.getElementById("wrongPassword");
+    errorMessage.style.display = "none";
   } else {
     buttonElement.style.backgroundColor = "#A7A7A7";
   }
