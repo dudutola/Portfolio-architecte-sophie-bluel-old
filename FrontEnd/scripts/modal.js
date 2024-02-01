@@ -147,9 +147,13 @@ async function sendImage(e) {
     if (data.hasOwnProperty("title") && data.hasOwnProperty("imageUrl") && data.hasOwnProperty("categoryId")) {
       location.reload();
     } else {
+      const categoryMargin = document.getElementById("category-select");
+      categoryMargin.style.marginBottom = "12px";
+
       const errorMessage = document.getElementById("wrongPassword");
       errorMessage.innerText = "Veuillez remplir correctement le formulaire.";
       errorMessage.style.color = "red";
+      errorMessage.style.marginBottom = "30px";
     }
   } catch (error) {
     console.error("Error:", error);
@@ -192,7 +196,9 @@ function generateSecondModal(e) {
     <select name="category" id="category-select" required>
     <select/>
     <p id="wrongPassword"></p>
-    <input type="submit" value="Valider" id="submit" class="submit-btn">`;
+    <div class="modal-btn">
+      <input type="submit" value="Valider" id="submit" class="submit-btn">
+    </div>`;
 
   modalContent.appendChild(title);
   modalContent.appendChild(form);

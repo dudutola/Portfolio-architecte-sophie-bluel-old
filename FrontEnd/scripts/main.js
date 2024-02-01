@@ -22,6 +22,9 @@ function verifyIfUserLogin() {
   console.log(userLoginInfos)
 
   if (userLoginInfos) {
+    const marginHeader = document.querySelector("header");
+    marginHeader.style.margin = "100px 0 50px";
+
     // Create mode édition
     const edition = document.createElement("div");
     edition.className = "mode edition";
