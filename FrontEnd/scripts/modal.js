@@ -54,13 +54,10 @@ export function generateModal(items) {
     modalImages.appendChild(figure);
 
     deleteButton.addEventListener("click", (e) => {
-      console.log(e);
       e.preventDefault();
 
       // Image id
       let id = items[i].id;
-      console.log(id);
-
       const url = `http://localhost:5678/api/works/${id}`;
 
       // Remove image
@@ -72,7 +69,6 @@ export function generateModal(items) {
           "Authorization": `Bearer ${token}`
         }
       };
-
       fetch(url, requestInfos)
       .then(response => {
         if (response.ok)
@@ -90,7 +86,7 @@ export function generateModal(items) {
   }
 
   modalContent.appendChild(modalImages);
-
+  // Button to add an image
   const addPhotoButton = document.createElement("button");
   addPhotoButton.className = "btn";
   addPhotoButton.innerText = "Ajouter une photo";
@@ -104,13 +100,9 @@ export function generateModal(items) {
 
   // Calling functions
   const backdropClose = document.getElementById("backdrop");
-  backdropClose.addEventListener("click", (e) => {
-    closeModal();
-  });
+  backdropClose.addEventListener("click", closeModal);
 
-  closeButton.addEventListener("click", (e) => {
-    closeModal();
-  });
+  closeButton.addEventListener("click", closeModal);
 
   const buttonAddImage = document.querySelector(".btn");
   buttonAddImage.addEventListener("click", generateSecondModal);
@@ -118,10 +110,6 @@ export function generateModal(items) {
 
 // Function to go back
 async function goBack(modal, backdrop) {
-  // const currentModal = document.getElementById("modal");
-  // // currentModal.remove();
-  // currentModal.innerHTML = "";
-
   // Retrieve data from the backend
   const apiWorks = await fetch("http://localhost:5678/api/works");
   const works = await apiWorks.json();
@@ -155,15 +143,8 @@ async function sendImage(e) {
   try {
     const response = await fetch(url, requestInfos);
     const data = await response.json();
-    // console.log(data)
 
     if (data.hasOwnProperty("title") && data.hasOwnProperty("imageUrl") && data.hasOwnProperty("categoryId")) {
-      const validateButton = document.getElementById("submit");
-      // Check if image, title, and category are provided
-      if (image && title && category) {
-        validateButton.style.backgroundColor = "#1D6154";
-      };
-
       location.reload();
     } else {
       const errorMessage = document.getElementById("wrongPassword");
@@ -247,6 +228,55 @@ function generateSecondModal(e) {
   backModal.addEventListener("click", (e) => {
     goBack(modal, backdrop);
   });
+
+  // Check form elements validity
+  let checks = {
+    imageElementIsFilled: false,
+    titleElementIsFilled: false,
+    categoryElementIsFilled: false,
+  };
+  // Check the image
+  const imageElement = document.getElementById("image");
+  imageElement.addEventListener("change", (e) => {
+    const inputImage = imageElement.files[0];
+    if (inputImage) {
+      checks["imageElementIsFilled"] = true;
+      checkFormValidity(checks);
+    }
+  });
+  // Check the title
+  const titleElement = document.getElementById("title");
+  titleElement.addEventListener("change", (e) => {
+    const inputTitle = titleElement.value;
+    console.log({inputTitle});
+    if (inputTitle.length > 1) {
+      checks["titleElementIsFilled"] = true;
+      checkFormValidity(checks);
+    } else {
+      checks["titleElementIsFilled"] = false;
+      checkFormValidity(checks);
+    }
+  });
+  // Check the category
+  const categoryElement = document.getElementById("category-select");
+  categoryElement.addEventListener("change", (e) => {
+    const categoryList = ["Objets", "Appartements", "Hotels & restaurants"];
+
+    const categoriesAllowed = {
+      1: "Objets",
+      2: "Appartements",
+      3: "Hotels & restaurants"
+    };
+    const selectCategory = categoryElement.value;
+
+    if (categoryList.includes(categoriesAllowed[parseInt(selectCategory)])) {
+      checks["categoryElementIsFilled"] = true;
+      checkFormValidity(checks);
+    } else {
+      checks["categoryElementIsFilled"] = false;
+      checkFormValidity(checks);
+    }
+  });
 }
 
 async function selectOptions() {
@@ -255,9 +285,13 @@ async function selectOptions() {
     const categories = await apiCategory.json();
 
     const categorySelect = document.getElementById("category-select");
-
     // Clear existing options
     categorySelect.innerHTML = "";
+
+    // Empty option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    categorySelect.appendChild(defaultOption);
 
     // Loop through categories and create options
     categories.forEach(category => {
@@ -270,5 +304,15 @@ async function selectOptions() {
     });
   } catch (error) {
     console.error("Error fetching or parsing categories:", error);
+  }
+}
+
+function checkFormValidity(checks) {
+  const buttonElement = document.getElementById("submit");
+  // Read the keys inside checks
+  if (checks.imageElementIsFilled && checks.titleElementIsFilled && checks.categoryElementIsFilled) {
+    buttonElement.style.backgroundColor = "#1D6154";
+  } else {
+    buttonElement.style.backgroundColor = "#A7A7A7";
   }
 }
