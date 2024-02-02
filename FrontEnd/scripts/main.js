@@ -1,5 +1,5 @@
 import { generateIntroduction } from "./intro.js";
-import { generatePortfolio, generateGallery } from "./portfolio.js";
+import { generatePortfolio } from "./portfolio.js";
 import { generateContact } from "./contact.js";
 import { generateModal } from "./modal.js";
 
@@ -9,8 +9,7 @@ const works = await apiWorks.json();
 
 // Call the functions
 generateIntroduction();
-generatePortfolio();
-generateGallery(works);
+generatePortfolio(works);
 generateContact();
 
 // Declare function users view
