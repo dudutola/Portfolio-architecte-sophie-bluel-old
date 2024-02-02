@@ -4,10 +4,12 @@ if (window.localStorage.getItem("userData")) {
   token = JSON.parse(window.localStorage.getItem("userData")).token;
 }
 
+// Retrieve data from the backend
+const apiCategories = await fetch("http://localhost:5678/api/categories");
+const categories = await apiCategories.json();
+
 // Function to close the modal
 function closeModal() {
-  // modal.classList.add("hidden");
-  // backdrop.classList.add("hidden");
   const backdrop = document.getElementById("backdrop");
   const modal = document.getElementById("modal");
   modal.remove();
@@ -15,7 +17,7 @@ function closeModal() {
 }
 
 // Function to generate the modal
-export function generateModal(items) {
+export function generateModal(works) {
   // Create modal elements
   const backdrop = document.createElement("div");
   backdrop.id = "backdrop";
@@ -41,11 +43,11 @@ export function generateModal(items) {
   const modalImages = document.createElement("div");
   modalImages.className = "modal-images";
 
-  for (let i = 0; i < items.length; i++) {
+  for (let i = 0; i < works.length; i++) {
     // Create the elements
     let figure = document.createElement("figure");
     let img = document.createElement("img");
-    img.src = items[i].imageUrl;
+    img.src = works[i].imageUrl;
     const deleteButton = document.createElement("i");
     deleteButton.className = "fa-solid fa-trash-can";
     // Append the elements
@@ -57,7 +59,7 @@ export function generateModal(items) {
       e.preventDefault();
 
       // Image id
-      let id = items[i].id;
+      let id = works[i].id;
       const url = `http://localhost:5678/api/works/${id}`;
 
       // Remove image
@@ -73,7 +75,7 @@ export function generateModal(items) {
       .then(response => {
         if (response.ok)
         {
-          console.log('Work deleted')
+          figure.remove();
         } else {
           throw new Error(`Http error: ${response.status}`)
         }
@@ -81,11 +83,11 @@ export function generateModal(items) {
       .catch(error => {
         console.log('Error:', error);
       });
-      location.reload();
     })
   }
 
   modalContent.appendChild(modalImages);
+
   // Button to add an image
   const addPhotoButton = document.createElement("button");
   addPhotoButton.className = "btn";
@@ -109,7 +111,7 @@ export function generateModal(items) {
 }
 
 // Function to go back
-async function goBack(modal, backdrop) {
+async function goBack() {
   // Retrieve data from the backend
   const apiWorks = await fetch("http://localhost:5678/api/works");
   const works = await apiWorks.json();
@@ -146,14 +148,6 @@ async function sendImage(e) {
 
     if (data.hasOwnProperty("title") && data.hasOwnProperty("imageUrl") && data.hasOwnProperty("categoryId")) {
       location.reload();
-    } else {
-      const categoryMargin = document.getElementById("category-select");
-      categoryMargin.style.marginBottom = "12px";
-
-      const errorMessage = document.getElementById("wrongPassword");
-      errorMessage.innerText = "Veuillez remplir correctement le formulaire.";
-      errorMessage.style.color = "red";
-      errorMessage.style.marginBottom = "30px";
     }
   } catch (error) {
     console.error("Error:", error);
@@ -162,9 +156,7 @@ async function sendImage(e) {
 
 function generateSecondModal(e) {
   e.preventDefault();
-  // Remove everything from the modal-conten
-  const backdrop = document.createElement("div");
-  const modal = document.getElementById("modal");
+  // Remove everything from the modal-content
   const modalContent = document.getElementById("modal-content");
   modalContent.innerHTML = "";
 
@@ -192,12 +184,13 @@ function generateSecondModal(e) {
     </div>
     <label for="title">Titre</label>
     <input type="text" name="title" id="title" required>
+    <p id="too-short"></p>
     <label for="category" id="category">Catégorie</label>
     <select name="category" id="category-select" required>
     <select/>
-    <p id="wrongPassword"></p>
+    <p id="error-message"></p>
     <div class="modal-btn">
-      <input type="submit" value="Valider" id="submit" class="submit-btn">
+      <input type="submit" value="Valider" id="submit" class="submit-btn" disabled>
     </div>`;
 
   modalContent.appendChild(title);
@@ -205,8 +198,8 @@ function generateSecondModal(e) {
 
   // Image preview
   const image = document.getElementById("image");
-  image.onchange = (e) => {
-    const [file] = image.files;
+  image.onchange = () => {
+    const file = image.files[0];
     if (file) {
       const imagePreview = document.createElement("img");
       imagePreview.style.maxWidth = "32%";
@@ -222,7 +215,6 @@ function generateSecondModal(e) {
       modalFiles.style.padding = "0";
 
       modalFiles.appendChild(imagePreview);
-      form.insertAdjacentElement("afterbegin", modalFiles);
     }
   };
   const formValidation = document.getElementById("form");
@@ -231,9 +223,7 @@ function generateSecondModal(e) {
   selectOptions();
 
   const backModal = document.getElementById("arrow-left");
-  backModal.addEventListener("click", (e) => {
-    goBack(modal, backdrop);
-  });
+  backModal.addEventListener("click", goBack);
 
   // Check form elements validity
   let checks = {
@@ -243,7 +233,7 @@ function generateSecondModal(e) {
   };
   // Check the image
   const imageElement = document.getElementById("image");
-  imageElement.addEventListener("change", (e) => {
+  imageElement.addEventListener("change", () => {
     const inputImage = imageElement.files[0];
     if (inputImage) {
       checks["imageElementIsFilled"] = true;
@@ -252,44 +242,41 @@ function generateSecondModal(e) {
   });
   // Check the title
   const titleElement = document.getElementById("title");
-  titleElement.addEventListener("change", (e) => {
+  titleElement.addEventListener("change", () => {
     const inputTitle = titleElement.value;
-    console.log({inputTitle});
-    if (inputTitle.length > 1) {
+    if (inputTitle.length > 5) {
       checks["titleElementIsFilled"] = true;
-      checkFormValidity(checks);
+
+      const tooShort = document.getElementById("too-short");
+      tooShort.style.display = "none";
     } else {
       checks["titleElementIsFilled"] = false;
-      checkFormValidity(checks);
+
+      // print errors when it doesn't work
+      const tooShort = document.getElementById("too-short");
+      tooShort.innerText = "Titre très court, veuillez écrire plus de 5 lettres!";
+      tooShort.style.color = "red";
+      tooShort.style.marginTop = "5px";
     }
+    checkFormValidity(checks);
   });
   // Check the category
   const categoryElement = document.getElementById("category-select");
-  categoryElement.addEventListener("change", (e) => {
-    const categoryList = ["Objets", "Appartements", "Hotels & restaurants"];
+  categoryElement.addEventListener("change", () => {
+    const selectCategoryId = parseInt(categoryElement.value);
+    const categoriesID = categories.map((category) => category.id );
 
-    const categoriesAllowed = {
-      1: "Objets",
-      2: "Appartements",
-      3: "Hotels & restaurants"
-    };
-    const selectCategory = categoryElement.value;
-
-    if (categoryList.includes(categoriesAllowed[parseInt(selectCategory)])) {
+    if (categoriesID.includes(selectCategoryId)) {
       checks["categoryElementIsFilled"] = true;
-      checkFormValidity(checks);
     } else {
       checks["categoryElementIsFilled"] = false;
-      checkFormValidity(checks);
     }
+    checkFormValidity(checks);
   });
 }
 
 async function selectOptions() {
   try {
-    const apiCategory = await fetch("http://localhost:5678/api/categories");
-    const categories = await apiCategory.json();
-
     const categorySelect = document.getElementById("category-select");
     // Clear existing options
     categorySelect.innerHTML = "";
@@ -317,13 +304,24 @@ function checkFormValidity(checks) {
   const buttonElement = document.getElementById("submit");
   // Read the keys inside checks
   if (checks.imageElementIsFilled && checks.titleElementIsFilled && checks.categoryElementIsFilled) {
+    buttonElement.disabled = false;
     buttonElement.style.backgroundColor = "#1D6154";
 
     const selectMargin = document.getElementById("category-select");
     selectMargin.style.marginBottom = "47px";
-    const errorMessage = document.getElementById("wrongPassword");
+    const errorMessage = document.getElementById("error-message");
     errorMessage.style.display = "none";
   } else {
+    buttonElement.disabled = true;
     buttonElement.style.backgroundColor = "#A7A7A7";
+
+    // print errors when it doesn't work
+    const categoryMargin = document.getElementById("category-select");
+    categoryMargin.style.marginBottom = "12px";
+    const errorMessage = document.getElementById("error-message");
+    errorMessage.innerText = "Veuillez remplir correctement le formulaire.";
+    errorMessage.style.color = "red";
+    errorMessage.style.marginBottom = "30px";
+    errorMessage.style.display = "block";
   }
 }
