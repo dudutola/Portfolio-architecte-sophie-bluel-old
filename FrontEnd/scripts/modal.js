@@ -1,7 +1,7 @@
 //
 let token;
-if (window.localStorage.getItem("portfolio")) {
-  token = JSON.parse(window.localStorage.getItem("portfolio")).token;
+if (window.localStorage.getItem("userData")) {
+  token = JSON.parse(window.localStorage.getItem("userData")).token;
 }
 
 // Function to close the modal

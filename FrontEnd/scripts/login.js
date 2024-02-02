@@ -62,7 +62,7 @@ function loginAuthentication() {
 
       if (data.hasOwnProperty("userId") && data.hasOwnProperty("token")) {
         // Retrieval of stored elements from localStorage
-        window.localStorage.setItem("portfolio", JSON.stringify(data));
+        window.localStorage.setItem("userData", JSON.stringify(data));
         // Redirection
         window.location = "./index.html";
 
