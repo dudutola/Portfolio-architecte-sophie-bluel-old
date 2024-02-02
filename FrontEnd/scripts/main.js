@@ -39,8 +39,15 @@ function verifyIfUserLogin() {
     const ul = document.querySelector("nav ul")
     const listItems = ul.getElementsByTagName("li");
     console.log(listItems)
-    const logoutLi = listItems[listItems.length - 1];
-    logoutLi.insertAdjacentElement("beforebegin", logout);
+    const lastItem = listItems[listItems.length - 1];
+    lastItem.insertAdjacentElement("beforebegin", logout);
+
+    logout.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.localStorage.removeItem("portfolio");
+
+      location.reload();
+    });
 
     // Not display login
     const loginLi = ul.querySelector("li:nth-child(3)");
@@ -75,12 +82,3 @@ function verifyIfUserLogin() {
 }
 // execute function
 verifyIfUserLogin()
-
-
-const logout = document.querySelector(".logout");
-logout.addEventListener("click", (e) => {
-  e.preventDefault();
-  window.localStorage.removeItem("portfolio");
-
-  location.reload();
-})
