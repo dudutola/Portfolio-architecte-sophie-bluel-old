@@ -150,7 +150,7 @@ li:hover, nav li a:hover {
   justify-content: center;
 }
 .mode h2 {
-  width: 22%;
+  width: 19%;
 }
 .modify {
   display: flex;
@@ -195,8 +195,8 @@ li:hover, nav li a:hover {
   margin: 26px 30px;
   font-size: 18px;
 }
-#modal-content {
-  margin: 40px 105.19px 45px 105.25px;
+#modal-content, .modal-add-button {
+  margin: 40px 105.19px 68px 105.25px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -207,7 +207,7 @@ li:hover, nav li a:hover {
   color: black;
   font-weight: 500;
 }
-#modal-content .btn {
+.add-photo-button {
   margin-top: 38px;
   font-size: 14px;
   font-weight: bold;
@@ -218,13 +218,19 @@ li:hover, nav li a:hover {
   background-color: #1D6154;
   border-radius: 60px;
 }
+.modal-add-button {
+  width: 67%;
+  border-top: 1px solid #B3B3B3;
+  margin: 30px 105.19px 45px 105.25px;
+  position: absolute;
+  bottom: 0;
+}
 .modal-images {
   display: grid;
   grid-template-columns: repeat(5, 78px);
   grid-column-gap: 9px;
   margin-top: 46px;
   padding-bottom: 63px;
-  border-bottom: 1px solid #B3B3B3;
 }
 .modal-images img {
   width: 78px;
