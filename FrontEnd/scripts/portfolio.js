@@ -13,29 +13,31 @@ function generateGallery(works) {
   // Remove the elements inside the gallery
   gallery.innerHTML = "";
 
+  // Remove the empty message
+  const emptyMessage = document.querySelector(".filter-empty");
+  if (emptyMessage) { emptyMessage.remove()};
+
   // when filter is empty
   if (works.length < 1) {
-    console.log("Nooooooo")
-
     const emptyGallery = document.createElement("p");
     emptyGallery.innerText = "La galerie est vide pour le moment.";
-    emptyGallery.style.fontSize = "16px";
-    gallery.appendChild(emptyGallery);
-  }
+    emptyGallery.className = "filter-empty";
+    gallery.insertAdjacentElement("beforebegin", emptyGallery);
+  } else {
+    for (let i = 0; i < works.length; i++) {
+      // Create the elements
+      let figure = document.createElement("figure");
+      let img = document.createElement("img");
+      img.src = works[i].imageUrl;
+      let figcaption = document.createElement("figcaption");
+      figcaption.innerHTML = works[i].title;
 
-  for (let i = 0; i < works.length; i++) {
-    // Create the elements
-    let figure = document.createElement("figure");
-    let img = document.createElement("img");
-    img.src = works[i].imageUrl;
-    let figcaption = document.createElement("figcaption");
-    figcaption.innerHTML = works[i].title;
-
-    // Add the elements to the gallery
-    figure.appendChild(img);
-    figure.appendChild(figcaption);
-    gallery.appendChild(figure);
-    portfolioSection.appendChild(gallery);
+      // Add the elements to the gallery
+      figure.appendChild(img);
+      figure.appendChild(figcaption);
+      gallery.appendChild(figure);
+      portfolioSection.appendChild(gallery);
+    }
   }
 }
 

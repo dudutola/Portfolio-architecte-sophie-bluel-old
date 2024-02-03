@@ -326,6 +326,11 @@ li:hover, nav li a:hover {
   background-color: #1D6154;
   color: white;
 }
+.filter-empty {
+  font-size: 18px;
+  text-align: center;
+  padding: 30px 0px 50px;
+}
 
 .gallery {
 	width: 100%;
