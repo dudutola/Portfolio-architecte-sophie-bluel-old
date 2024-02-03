@@ -393,6 +393,9 @@ footer {
   background-color: #FFFFFF;
   right: 0;
 }
+#login-footer {
+  bottom: 0;
+}
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
