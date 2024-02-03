@@ -9,17 +9,27 @@ gallery.className = "gallery";
 const portfolioSection = document.createElement("section");
 portfolioSection.id = "portfolio";
 
-function generateGallery(items) {
+function generateGallery(works) {
   // Remove the elements inside the gallery
   gallery.innerHTML = "";
 
-  for (let i = 0; i < items.length; i++) {
+  // when filter is empty
+  if (works.length < 1) {
+    console.log("Nooooooo")
+
+    const emptyGallery = document.createElement("p");
+    emptyGallery.innerText = "La galerie est vide pour le moment.";
+    emptyGallery.style.fontSize = "16px";
+    gallery.appendChild(emptyGallery);
+  }
+
+  for (let i = 0; i < works.length; i++) {
     // Create the elements
     let figure = document.createElement("figure");
     let img = document.createElement("img");
-    img.src = items[i].imageUrl;
+    img.src = works[i].imageUrl;
     let figcaption = document.createElement("figcaption");
-    figcaption.innerHTML = items[i].title;
+    figcaption.innerHTML = works[i].title;
 
     // Add the elements to the gallery
     figure.appendChild(img);
@@ -52,7 +62,7 @@ export function generatePortfolio(works) {
 
   const filterButtons = document.querySelectorAll(".filterbar span");
   filterButtons.forEach(button => {
-    button.addEventListener("click", (event) => {
+    button.addEventListener("click", () => {
       let filterTerm = button.textContent.trim();
 
       switch (filterTerm) {
