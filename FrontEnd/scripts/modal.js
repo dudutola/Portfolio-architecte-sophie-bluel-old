@@ -89,12 +89,13 @@ export function generateModal(works) {
   modalContent.appendChild(modalImages);
 
   // Button to add an image
-  const addPhotoButton = document.createElement("button");
-  addPhotoButton.className = "btn";
-  addPhotoButton.innerText = "Ajouter une photo";
-  modalContent.appendChild(addPhotoButton);
+  const addPhotoButton = document.createElement("div");
+  addPhotoButton.className = "modal-add-button"
+  addPhotoButton.innerHTML = `
+    <button class="add-photo-button">Ajouter une photo</button>`;
 
   modal.appendChild(modalContent);
+  modal.appendChild(addPhotoButton);
 
   const body = document.querySelector("body");
   body.insertAdjacentElement("afterbegin", modal);
@@ -106,7 +107,7 @@ export function generateModal(works) {
 
   closeButton.addEventListener("click", closeModal);
 
-  const buttonAddImage = document.querySelector(".btn");
+  const buttonAddImage = document.querySelector(".add-photo-button");
   buttonAddImage.addEventListener("click", generateSecondModal);
 }
 
@@ -158,7 +159,9 @@ function generateSecondModal(e) {
   e.preventDefault();
   // Remove everything from the modal-content
   const modalContent = document.getElementById("modal-content");
+  const addPhotoButton = document.querySelector(".modal-add-button");
   modalContent.innerHTML = "";
+  addPhotoButton.style.display = "none";
 
   const backButton = document.createElement("i");
   backButton.className = "fa-solid fa-arrow-left";
