@@ -76,6 +76,7 @@ export function generateModal(works) {
         if (response.ok)
         {
           figure.remove();
+          document.querySelector(`.gallery #works-${id}`).remove();
         } else {
           throw new Error(`Http error: ${response.status}`)
         }
@@ -148,7 +149,20 @@ async function sendImage(e) {
     const data = await response.json();
 
     if (data.hasOwnProperty("title") && data.hasOwnProperty("imageUrl") && data.hasOwnProperty("categoryId")) {
-      location.reload();
+      alert("Votre image vient d'être ajoutée");
+
+      let figure = document.createElement("figure");
+      figure.id = `works-${data.id}`;
+      let img = document.createElement("img");
+      img.src = data.imageUrl;
+      let figcaption = document.createElement("figcaption");
+      figcaption.innerHTML = data.title;
+
+      figure.appendChild(img);
+      figure.appendChild(figcaption);
+
+      const gallery = document.querySelector(".gallery");
+      gallery.appendChild(figure);
     }
   } catch (error) {
     console.error("Error:", error);
