@@ -27,6 +27,7 @@ function generateGallery(works) {
     for (let i = 0; i < works.length; i++) {
       // Create the elements
       let figure = document.createElement("figure");
+      figure.id = `works-${works[i].id}`;
       let img = document.createElement("img");
       img.src = works[i].imageUrl;
       let figcaption = document.createElement("figcaption");
