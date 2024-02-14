@@ -2,7 +2,7 @@
 const main = document.querySelector("main");
 
 // Create contact section
-function generateContact() {
+function generateConnection() {
   const loginBold = document.querySelector("li:nth-child(3)")
   loginBold.style.fontWeight = "bold";
   // Create intro elements
@@ -31,7 +31,7 @@ function generateContact() {
   contactSection.appendChild(form);
   main.appendChild(contactSection);
 }
-generateContact();
+generateConnection();
 
 
 const url = "http://localhost:5678/api/users/login";
@@ -40,7 +40,6 @@ const form = document.getElementById("form");
 function loginAuthentication() {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    // let formData = new FormData(form);
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -74,7 +73,9 @@ function loginAuthentication() {
         passwordMessage.innerText = "Mot de passe incorrect";
 
         emailMessage.style.color = "red";
+        emailMessage.style.margin = "4px";
         passwordMessage.style.color = "red";
+        passwordMessage.style.margin = "4px";
       }
     });
   });

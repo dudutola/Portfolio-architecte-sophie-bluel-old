@@ -66,7 +66,7 @@ if (userLoginInfos) {
     </div>`;
 
   const sectionPortfolio = document.getElementById("portfolio");
-  sectionPortfolio.insertAdjacentElement("beforebegin", mode);
+  sectionPortfolio.insertAdjacentElement("afterbegin", mode);
 
   const modifyButton = document.querySelector(".modify");
   modifyButton.addEventListener("click", () => generateModal(works));
