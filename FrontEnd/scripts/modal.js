@@ -218,6 +218,20 @@ function generateSecondModal(e) {
   image.onchange = () => {
     const file = image.files[0];
     if (file) {
+      // Validation format type
+      const allowedTypes = ["image/jpeg", "image/png"];
+      const maxSizeInBytes = 4 * 1024 * 1024;
+      if (!allowedTypes.includes(file.type)) {
+        alert("Veuillez sélectionner une image au format JPG ou PNG.")
+        image.value = "";
+        return;
+      }
+      if (file.size > maxSizeInBytes) {
+        alert("La taille de l'image ne doit pas dépasser les 4mo.")
+        image.value = "";
+        return;
+      }
+
       const imagePreview = document.createElement("img");
       imagePreview.style.maxWidth = "32%";
       imagePreview.src = URL.createObjectURL(file);
